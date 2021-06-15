@@ -8,12 +8,18 @@ class Car {
     hybrid = 'not defined';
     kms = 0;
     tank = 0;
+    price = 0;
+    company = "not defined";
+    devaluationRatePerKm = 1/1000000;
 
-    constructor(model, color, kmPerLt, tank) {
-        this.model = model;
-        this.color = color;
-        this.kmPerLt = kmPerLt;
-        this.tank =tank;
+    constructor(props) {
+        this.company = props['company'];
+        this.color = props['color'];
+        this.kmPerLt = props.kmPerLt;
+        this.tank = props.tank;
+        this.price = props.price;
+        this.year = props.year;
+        this.model = props.model;
     }
 
     currentGas(){
@@ -25,12 +31,26 @@ class Car {
     }
 
     addGas(liters) {
-        this.gas = (liters<=this.availableGasSpace())?this.gas+liters:this.tank;
+        this.gas += (liters<=this.availableGasSpace())?liters:this.availableGasSpace();
+    }
+
+    maximumDistanceToTravel() {
+        return this.gas * this.kmPerLt;
     }
 
     move(kms){
-        this.kms += kms;
-        this.gas -= kms / this.kmPerLt;
+        this.maximumDistanceToTravel();
+        if (kms > this.maximumDistanceToTravel()) {
+            this.kms += this.maximumDistanceToTravel();
+            this.gas -= this.maximumDistanceToTravel() / this.kmPerLt;
+        } else {
+            this.kms += kms;
+            this.gas -= kms / this.kmPerLt;
+        }
+    }
+
+    currentSalePrice() {
+        return this.price * ((this.kms*this.devaluationRatePerKm<0.9)?1-(this.kms*this.devaluationRatePerKm):0.1);
     }
 }
 
