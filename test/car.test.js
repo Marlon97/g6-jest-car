@@ -59,5 +59,5 @@ test('move car 5 kms', () => {
 });
 
 test('car current sale price is lower', () => {
-    expect(golf.currentSalePrice()).toBeLessThan(500000);
+    expect(golf.currentSalePrice()).toBeLessThan(golf.price);
 });
