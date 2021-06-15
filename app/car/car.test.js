@@ -1,5 +1,5 @@
 //const sum = require('./sum');
-const Car = require('./../app/car');
+const Car = require('./car');
 const golf = new Car({
     color: 'red',
     model: 'Golf',
